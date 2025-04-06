@@ -46,7 +46,7 @@ export default function MovieDetails() {
     return (
         <Box sx={{ padding: "1rem", display: "flex", flexDirection: "column", gap: "5rem", minHeight: "100vh" }}>
             <Grid sx={{ display: "flex", flexDirection: { xl: "row", md: "row", sm: "row", xs: "column" }, justifyContent: { xl: "space-between", md: "center", xs: "center" }, gap: "1rem" }}>
-                <Card sx={{ display: "flex", flexDirection: "column", justifyContent: "center", minWidth: { xl: "22.5rem", sm: "50rem", md: "40rem" }, height: { xl: "33rem" }, borderWidth: "3px", borderStyle: "solid", borderRadius: "0rem", padding: "0.25rem", backgroundColor: theme.palette.primary.main, borderColor: theme.palette.primary.main }}>
+                <Card sx={{ display: "flex", flexDirection: "column", justifyContent: "center", minWidth: { xl: "22.5rem", sm: "18rem", md: "25rem" }, height: { xl: "33rem" }, borderWidth: "3px", borderStyle: "solid", borderRadius: "0rem", padding: "0.25rem", backgroundColor: theme.palette.primary.main, borderColor: theme.palette.primary.main }}>
                     <CardMedia component="img" image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} sx={{ objectFit: "cover", height: "100%" }} />
                 </Card>
                 <Typography variant="body1" sx={{ color: theme.palette.text.primary, textAlign: { xl: "start", md: "start", sm: "start", xs: "center" }, fontSize: "large" }}>

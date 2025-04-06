@@ -15,53 +15,96 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-import DOMPurify from "isomorphic-dompurify";
+import { usePathname } from 'next/navigation';
+import DOMPurify from 'isomorphic-dompurify';
 import { theme } from '../utils/theme';
 import { Grid } from '@mui/material';
-import { AiOutlineClose } from "react-icons/ai";
-import { IoIosMenu } from "react-icons/io";
+import { AiOutlineClose } from 'react-icons/ai';
+import { IoIosMenu } from 'react-icons/io';
 
-const navbarBrand = "midnight vault";
+const navbarBrand = 'midnight vault';
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 
-const drawerWidth = "100vw";
-const navItems = ['homepage', 'franchise', 'characters', 'the bests'];
+const drawerWidth = '100vw';
+
+const navItems = [
+  { label: 'homepage', path: '/' },
+  { label: 'characters', path: '/characters' },
+  { label: 'the bests', path: '/bests' },
+];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const pathname = usePathname();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', backgroundColor: theme.palette.primary.main, minHeight: "100%", overflow: "hidden" }}>
-      <Grid sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" sx={{ my: 2, marginLeft: "0.8rem" }}>
-          <Link className='link' href={'/'} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(navbarBrand) }} />
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{
+        textAlign: 'center',
+        backgroundColor: theme.palette.primary.main,
+        minHeight: '100%',
+        overflow: 'hidden',
+      }}
+    >
+      <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h6" sx={{ my: 2, marginLeft: '0.8rem' }}>
+          <Link
+            className="link"
+            href="/"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(navbarBrand),
+            }}
+          />
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <Button variant='contained' sx={{ height: "2.3rem", boxShadow: "none", }}><AiOutlineClose size={25} /></Button>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+        >
+          <Button variant="contained" sx={{ height: '2.3rem', boxShadow: 'none' }}>
+            <AiOutlineClose size={25} />
+          </Button>
         </Box>
       </Grid>
       <Divider />
-      <List sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={DOMPurify.sanitize(item)} sx={{ color: theme.palette.text.primary }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <List
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: "10rem",
+          }}
+        >
+          {navItems.map(({ label, path }) => (
+            <ListItem key={label} disablePadding>
+              <ListItemButton
+                component={Link}
+                href={path}
+                sx={{
+                  textAlign: 'center',
+                  color: pathname === path ? theme.palette.secondary.main : theme.palette.text.primary,
+                  backgroundColor: pathname === path ? theme.palette.background.paper : "transparent",
+                  borderRadius: "5px",
+                }}
+              >
+                <ListItemText
+                  primary={DOMPurify.sanitize(label)}
+                  sx={{ textTransform: 'capitalize' }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Box>
   );
 
@@ -70,8 +113,8 @@ export default function DrawerAppBar(props: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ padding: { xl: "0.3rem", xs: "0.2rem" } }}>
-        <Toolbar sx={{ display: "flex", justifyContent: "end" }}>
+      <AppBar component="nav" sx={{ padding: { xl: '0.3rem', xs: '0.2rem' } }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'end' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -84,14 +127,37 @@ export default function DrawerAppBar(props: Props) {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, fontSize: { xl: "xx-large" }, letterSpacing: "3px" }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', sm: 'block' },
+              fontSize: { xl: 'xx-large' },
+              letterSpacing: '3px',
+            }}
           >
-            <Link className='link' href={'/'} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(navbarBrand) }} />
+            <Link
+              className="link"
+              href="/"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(navbarBrand),
+              }}
+            />
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: { xl: "0.5rem" } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff', fontSize: { xl: "larger" } }}>
-                {DOMPurify.sanitize(item)}
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: { xl: '0.5rem' } }}>
+            {navItems.map(({ label, path }) => (
+              <Button
+                key={label}
+                component={Link}
+                href={path}
+                sx={{
+                  color: pathname === path ? theme.palette.secondary.main : theme.palette.text.primary,
+                  backgroundColor: pathname === path ? theme.palette.background.paper : "transparent",
+                  borderRadius: "5px",
+                  minWidth: { sm: "5rem", xl: "6.5rem", lg: "6.5rem", md: "5rem" },
+                  fontSize: { xl: 'larger' },
+                  textTransform: 'capitalize',
+                }}
+              >
+                {DOMPurify.sanitize(label)}
               </Button>
             ))}
           </Box>
@@ -100,16 +166,19 @@ export default function DrawerAppBar(props: Props) {
       <nav>
         <Drawer
           container={container}
-          anchor='right'
+          anchor="right"
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
