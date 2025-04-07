@@ -32,6 +32,8 @@ export default function RootLayout({
                 display: "flex",
                 flexDirection: "column",
                 backgroundColor: theme.palette.background.paper,
+                minHeight: "100vh",
+                flexGrow: 1
               }}
             >
               {children}

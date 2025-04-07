@@ -31,9 +31,8 @@ interface Props {
 const drawerWidth = '100vw';
 
 const navItems = [
-  { label: 'homepage', path: '/' },
-  { label: 'characters', path: '/characters' },
-  { label: 'the bests', path: '/bests' },
+  { label: 'Most famous', path: '/' },
+  { label: 'Recents', path: '/recents' }
 ];
 
 export default function DrawerAppBar(props: Props) {

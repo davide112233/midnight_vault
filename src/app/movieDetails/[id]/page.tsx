@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useGenreStore } from "@/app/utils/useGenreStore";
-import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
 import { theme } from "@/app/utils/theme";
 
@@ -70,43 +69,3 @@ export default function MovieDetails() {
         </Box>
     );
 }
-
-
-/*
-<Box padding={4} display="flex" flexDirection="column" gap={4}>
-            <Card sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, boxShadow: 3 }}>
-                <CardMedia
-                    component="img"
-                    image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    sx={{ width: { xs: "100%", md: 300 }, height: "auto", objectFit: "cover" }}
-                />
-                <CardContent sx={{ flex: 1 }}>
-                    <Typography variant="h4" gutterBottom>{movie.title}</Typography>
-                    <Typography variant="body1" gutterBottom>{movie.overview}</Typography>
-                    <Typography variant="subtitle2" color="text.secondary">
-                        Release date: {movie.release_date}
-                    </Typography>
-                </CardContent>
-            </Card>
-            {trailer ? (
-                <Box sx={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                        src={`https://www.youtube.com/embed/${trailer.key}`}
-                        frameBorder="0"
-                        allowFullScreen
-                        title="Trailer"
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                        }}
-                    ></iframe>
-                </Box>
-            ) : (
-                <Typography>No trailer available.</Typography>
-            )}
-        </Box>
-*/
