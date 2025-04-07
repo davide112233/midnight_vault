@@ -7,12 +7,12 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { CircularProgress, Typography, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import DOMPurify from "isomorphic-dompurify";
-import { useMovies } from "../utils/useGenreStore";
+import { useGenreMovies } from "../utils/useGenreStore";
 import { theme } from "../utils/theme";
 
 export default function MovieCard() {
   const router = useRouter();
-  const { data: movies, isLoading, isError } = useMovies();
+  const { data: movies, isLoading, isError } = useGenreMovies();
 
   if (isLoading)
     return (
