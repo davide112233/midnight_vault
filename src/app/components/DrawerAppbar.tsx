@@ -31,7 +31,8 @@ interface Props {
 const drawerWidth = '100vw';
 
 const navItems = [
-  { label: 'Most famous', path: '/' },
+  { label: 'Homepage', path: '/' },
+  { label: 'The bests', path: '/theBests' },
   { label: 'Recents', path: '/recents' }
 ];
 
@@ -112,7 +113,7 @@ export default function DrawerAppBar(props: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ padding: { xl: '0.3rem', xs: '0.2rem' } }}>
+      <AppBar component="nav" sx={{ padding: { xl: '0.3rem', xs: '0.2rem', boxShadow: "none" } }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'end' }}>
           <IconButton
             color="inherit"

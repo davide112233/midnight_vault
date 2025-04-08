@@ -1,14 +1,11 @@
-import { Box } from "@mui/material";
 import DrawerAppBar from "./components/DrawerAppbar";
-import FranchiseMovies from "./components/FranchiseMovies";
+import HorrorCarousel from "./components/HorrorCarousel";
 
 export default function Home() {
   return (
     <>
       <DrawerAppBar />
-      <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "2.2rem", padding: "2rem" }}>
-        <FranchiseMovies />
-      </Box>
+      <HorrorCarousel />
     </>
   );
 }

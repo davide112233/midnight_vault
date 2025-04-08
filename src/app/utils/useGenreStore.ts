@@ -12,6 +12,9 @@ export interface GenreStore {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 
+  selectedFranchise: string;
+  setSelectedFranchise: (franchise: string) => void;
+
   movie: Movie | null;
   loading: boolean;
   fetchMovieById: (id: number) => Promise<void>;
@@ -28,6 +31,9 @@ export const useGenreStore = create<GenreStore>((set) => ({
 
   movie: null,
   loading: false,
+
+  selectedFranchise: "insidious",
+  setSelectedFranchise: (franchise) => set({ selectedFranchise: franchise }),
 
   fetchMovieById: async (id: number) => {
     set({ loading: true });
@@ -220,4 +226,30 @@ export const useFranchiseMovies = (franchiseNames: string | string[]) => {
     },
     staleTime: 1000 * 60 * 5,
   });
+};
+
+export const fetchMoviesByNames = async (movieNames: string[]): Promise<Movie[]> => {
+  const movies: Movie[] = [];
+
+  for (const name of movieNames) {
+    try {
+      const response = await tmdbClient.get("/search/movie", {
+        params: {
+          query: name,
+          language: "en-US",
+        },
+      });
+
+      const results: Movie[] = response.data.results;
+      const movie = results.find((m) => m.poster_path); // get first with a poster
+
+      if (movie) {
+        movies.push(movie);
+      }
+    } catch (error) {
+      console.warn(`Failed to fetch movie: ${name}`, error);
+    }
+  }
+
+  return movies;
 };

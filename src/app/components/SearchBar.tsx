@@ -50,12 +50,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchBar() {
+type SearchBarProps = {
+  placeholder?: string;
+};
+
+export default function SearchBar({ placeholder = "discover..." }: SearchBarProps) {
   const setSearchTerm = useGenreStore((state) => state.setSearchTerm);
 
   const debouncedSearch = useMemo(() => debounce(setSearchTerm, 300), [setSearchTerm]);
-
-  const hintText = "discover...";
 
   useEffect(() => {
     return () => {
@@ -69,7 +71,7 @@ export default function SearchBar() {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder={DOMPurify.sanitize(hintText)}
+        placeholder={DOMPurify.sanitize(placeholder)}
         inputProps={{ "aria-label": "search" }}
         onChange={(e) => debouncedSearch(e.target.value)}
       />

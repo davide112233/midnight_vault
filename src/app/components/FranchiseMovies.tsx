@@ -1,43 +1,93 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardActionArea, CardMedia } from "@mui/material";
+import { useEffect } from "react";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { useFranchiseMovies } from "../utils/useGenreStore";
 import { useRouter } from "next/navigation";
+import { theme } from "../utils/theme";
+import { useMountedStore } from "../utils/useMountedStore";
+import DOMPurify from "isomorphic-dompurify";
+import FranchiseFilter from "../components/FranchiseFilter";
+import { useGenreStore } from "../utils/useGenreStore";
 
 const FranchiseMovies = () => {
-    const [isMounted, setIsMounted] = useState(false);
-    const router = useRouter();
-    const { data, isLoading, error } = useFranchiseMovies(["hellraiser", "insidious", "resident evil", "saw", "the conjuring", "paranormal activity"]);
+  const { isMounted, setMounted } = useMountedStore();
+  const router = useRouter();
+  const selectedFranchise = useGenreStore((state) => state.selectedFranchise);
 
-    // Ensure the component is mounted before using useRouter
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+  const franchises =
+    selectedFranchise === "all"
+      ? ["hellraiser", "insidious", "resident evil", "saw", "the conjuring", "paranormal activity"] // riordinare i franchise qui, non c'entra con l'ordinamento nell'app
+      : [selectedFranchise];
 
-    if (!isMounted) return null; // Don't render until mounted
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error fetching franchise movies</div>;
+  const { data, isLoading, error } = useFranchiseMovies(franchises);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+  if (isLoading) return <CircularProgress />;
+  if (error)
     return (
-        <div>
-            <h2>Franchise Movies</h2>
-            <div>
-                {data?.map((movie) => (
-                    <Card key={movie.id}>
-                        <CardActionArea onClick={() => router.push(`movieDetails/${movie.id}`)}>
-                            <CardMedia
-                                component="img"
-                                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                alt={movie.title}
-                                sx={{ height: { xl: "25rem", xs: "100%", sm: "25rem" } }}
-                            />
-                        </CardActionArea>
-                    </Card>
-                ))}
-            </div>
-        </div>
+      <Typography>{DOMPurify.sanitize("Something went wrong loading the vault.")}</Typography>
     );
+
+  return (
+    <>
+      <FranchiseFilter />
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(4, 1fr)",
+          },
+          gap: 2,
+          mt: 2,
+        }}
+      >
+        {data?.map((movie) => (
+          <Card
+            key={movie.id}
+            sx={{
+              width: "100%",
+              minHeight: "100%",
+              borderWidth: "3px",
+              borderStyle: "solid",
+              borderColor: theme.palette.primary.main,
+              backgroundColor: theme.palette.primary.main,
+              borderRadius: "0rem",
+              padding: "0.25rem",
+              boxShadow: "none",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <CardActionArea onClick={() => router.push(`movieDetails/${movie.id}`)}>
+              <CardMedia
+                component="img"
+                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                sx={{ height: { xl: "25rem", xs: "100%", sm: "25rem" } }}
+              />
+            </CardActionArea>
+          </Card>
+        ))}
+      </Box>
+    </>
+  );
 };
 
 export default FranchiseMovies;
