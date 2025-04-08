@@ -35,11 +35,11 @@ const SplashScreen: React.FC = () => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "#000",
+                        backgroundColor: theme.palette.background.paper,
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        color: "#fff",
+                        color: theme.palette.text.primary,
                     }}
                 >
                     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "1.5rem" }}>

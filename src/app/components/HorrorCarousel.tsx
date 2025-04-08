@@ -3,12 +3,14 @@
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { Box, Typography, Card, CardMedia } from "@mui/material";
+import { Box, Typography, Card, CardMedia, CircularProgress } from "@mui/material";
 import { theme } from "../utils/theme";
 import { useSelectedMovies } from "../utils/useSelectedMovies";
+import DOMPurify from "isomorphic-dompurify";
+import GenericHeading from "./GenericHeading";
 
 const HorrorCarousel: React.FC = () => {
-  const movieNames = ["Insidious", "The Conjuring", "Saw x", "Hereditary", "The Nun"]; // scegliere i film horror da visualizzare
+  const movieNames = ["alien covenant", "insidious", "scream", "resident evil vendetta"]; // scegliere i film horror da visualizzare
 
   const { data: movies, isLoading, error } = useSelectedMovies(movieNames);
 
@@ -18,12 +20,13 @@ const HorrorCarousel: React.FC = () => {
 
   const [emblaRef] = useEmblaCarousel({ loop: true }, [autoplay.current]);
 
-  if (isLoading) return <Typography>Loading selected horror movies...</Typography>;
-  if (error) return <Typography>Failed to load selected movies</Typography>;
+  if (isLoading) return <CircularProgress />
+  if (error) return <Typography variant="body1">{DOMPurify.sanitize("An error occured while trying fetching the selected movies")}</Typography>;
 
   return (
     <Box ref={emblaRef} sx={{ overflow: "hidden", marginTop: "4.6rem" }}>
-      <Box sx={{ display: "flex" }}>
+      <GenericHeading />
+      <Box sx={{ display: "flex", padding: "1.3rem" }}>
         {movies?.map((movie) => (
           <Box key={movie.id} sx={{ flex: "0 0 100%" }}>
             <Card
@@ -37,7 +40,7 @@ const HorrorCarousel: React.FC = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                padding: "1.3rem",
+                padding: { xl: "1.2rem", xs: "1.2rem", sm: "0.8rem" },
               }}
             >
               <CardMedia
@@ -45,7 +48,7 @@ const HorrorCarousel: React.FC = () => {
                 image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
                 sx={{
-                  width: { xl: "40rem" },
+                  width: { xl: "40rem", sm: "30rem", xs: "18rem" },
                   height: "100%",
                   objectFit: "cover",
                   backgroundSize: "cover",

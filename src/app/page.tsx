@@ -1,11 +1,11 @@
 import DrawerAppBar from "./components/DrawerAppbar";
-import HorrorCarousel from "./components/HorrorCarousel";
+import LandingHeadline from "./components/LandingHeadline";
 
 export default function Home() {
   return (
     <>
       <DrawerAppBar />
-      <HorrorCarousel />
+      <LandingHeadline />
     </>
   );
 }
