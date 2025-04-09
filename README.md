@@ -14,3 +14,7 @@ Questo progetto intende essere una libreria di film dedicato al mondo dell'horro
 - Axios
 - Tanstack
 - Framer motion
+
+# Valutazione delle performance
+
+![Alt text](screenshots/Screenshot%20(1).png)
