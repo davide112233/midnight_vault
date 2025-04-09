@@ -16,6 +16,7 @@ import { useMountedStore } from "../utils/useMountedStore";
 import DOMPurify from "isomorphic-dompurify";
 import FranchiseFilter from "../components/FranchiseFilter";
 import { useGenreStore } from "../utils/useGenreStore";
+import { motion } from "framer-motion";
 
 const FranchiseMovies = () => {
   const { isMounted, setMounted } = useMountedStore();
@@ -57,33 +58,39 @@ const FranchiseMovies = () => {
           mt: 2,
         }}
       >
-        {data?.map((movie) => (
-          <Card
+        {data?.map((movie, index) => (
+          <motion.div
             key={movie.id}
-            sx={{
-              width: "100%",
-              minHeight: "100%",
-              borderWidth: "3px",
-              borderStyle: "solid",
-              borderColor: theme.palette.primary.main,
-              backgroundColor: theme.palette.primary.main,
-              borderRadius: "0rem",
-              padding: "0.25rem",
-              boxShadow: "none",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 100, duration: 0.35, damping: 10, delay: index * 1 }}
           >
-            <CardActionArea onClick={() => router.push(`movieDetails/${movie.id}`)}>
-              <CardMedia
-                component="img"
-                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                sx={{ height: { xl: "25rem", xs: "100%", sm: "25rem" } }}
-              />
-            </CardActionArea>
-          </Card>
+            <Card
+              sx={{
+                width: "100%",
+                minHeight: "100%",
+                borderWidth: "3px",
+                borderStyle: "solid",
+                borderColor: theme.palette.primary.main,
+                backgroundColor: theme.palette.primary.main,
+                borderRadius: "0rem",
+                padding: "0.25rem",
+                boxShadow: "none",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <CardActionArea onClick={() => router.push(`movieDetails/${movie.id}`)}>
+                <CardMedia
+                  component="img"
+                  image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  sx={{ height: { xl: "25rem", xs: "100%", sm: "25rem" } }}
+                />
+              </CardActionArea>
+            </Card>
+          </motion.div>
         ))}
       </Box>
     </>
