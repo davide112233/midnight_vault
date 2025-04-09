@@ -9,20 +9,31 @@ import { useSelectedMovies } from '../utils/useSelectedMovies';
 import { Box, CircularProgress } from '@mui/material';
 import DOMPurify from "isomorphic-dompurify";
 import { theme } from '../utils/theme';
+import { useRouter } from 'next/navigation';
+import { useMountedStore } from '../utils/useMountedStore';
 
 export default function LandingMovies() {
-    const movieNames = ["the soul eater", "insidious"]; // scegliere i film horror da visualizzare
+    const { isMounted, setMounted } = useMountedStore();
+
+    const movieNames = ["insidious 2", "resident evil vendetta", "saw iii", "the conjuring 2", "paranormal activity the ghost dimension", "hellraiser revelations"]; // scegliere i film horror da visualizzare
 
     const { data: movies, isLoading, error } = useSelectedMovies(movieNames);
 
+    const router = useRouter();
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
     if (isLoading) return <CircularProgress />
     if (error) return <Typography variant="body1">{DOMPurify.sanitize("An error occured while trying fetching the selected movies")}</Typography>;
 
     return (
-        <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", padding: "0.7rem", gap: "0.8rem", width: { xl: "48rem" } }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: { xl: "start", md: "start", xs: "center" }, alignItems: "center", gap: "1.3rem", width: { xl: "48rem" }, marginBottom: "1rem", marginTop: { xs: "1rem" } }}>
             {movies?.map((movie) => (
                 <Card key={movie.id} sx={{
-                    width: { xl: "15rem", md: "16.7rem", sm: "18rem", xs: "100%" },
+                    width: { xl: "15rem", md: "16.7rem", sm: "18.7rem", xs: "15rem" },
                     minHeight: "fit-content",
                     borderWidth: "3px",
                     borderStyle: "solid",
@@ -35,7 +46,7 @@ export default function LandingMovies() {
                     flexDirection: "column",
                     justifyContent: "center",
                 }}>
-                    <CardActionArea>
+                    <CardActionArea onClick={() => router.push(`movieDetails/${movie.id}`)}>
                         <CardMedia
                             component="img"
                             image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

@@ -20,7 +20,7 @@ const FranchiseFilter = () => {
     return (
         <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.2rem" }}>
             {franchiseOptions.map((franchise) => (
-                <Button key={franchise} onClick={() => setSelectedFranchise(franchise)} variant="contained" size="large" sx={{ backgroundColor: selectedFranchise === franchise ? theme.palette.text.primary : theme.palette.primary.main, color: selectedFranchise === franchise ? theme.palette.background.paper : theme.palette.text.primary, fontSize: "larger", width: { xl: "13rem" }, textAlign: "center" }}>{DOMPurify.sanitize(franchise.charAt(0).toUpperCase() + franchise.slice(1))}</Button>
+                <Button key={franchise} onClick={() => setSelectedFranchise(franchise)} variant="contained" size="large" sx={{ backgroundColor: selectedFranchise === franchise ? theme.palette.text.primary : theme.palette.primary.main, color: selectedFranchise === franchise ? theme.palette.background.paper : theme.palette.text.primary, fontSize: "larger", width: { xl: "13rem", sm: "13rem", xs: "100%" }, textAlign: "center" }}>{DOMPurify.sanitize(franchise.charAt(0).toUpperCase() + franchise.slice(1))}</Button>
             ))}
         </Box>
     );

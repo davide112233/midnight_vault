@@ -91,8 +91,8 @@ export default function DrawerAppBar(props: Props) {
                 href={path}
                 sx={{
                   textAlign: 'center',
-                  color: pathname === path ? theme.palette.secondary.main : theme.palette.text.primary,
-                  backgroundColor: pathname === path ? theme.palette.background.paper : "transparent",
+                  color: pathname === path ? theme.palette.background.paper : theme.palette.text.primary,
+                  backgroundColor: pathname === path ? theme.palette.text.primary : "transparent",
                   borderRadius: "5px",
                 }}
               >
@@ -149,8 +149,8 @@ export default function DrawerAppBar(props: Props) {
                 component={Link}
                 href={path}
                 sx={{
-                  color: pathname === path ? theme.palette.secondary.main : theme.palette.text.primary,
-                  backgroundColor: pathname === path ? theme.palette.background.paper : "transparent",
+                  color: pathname === path ? theme.palette.background.paper : theme.palette.text.primary,
+                  backgroundColor: pathname === path ? theme.palette.text.primary : "transparent",
                   borderRadius: "5px",
                   minWidth: { sm: "5rem", xl: "6.5rem", lg: "6.5rem", md: "5rem" },
                   fontSize: { xl: 'larger' },
