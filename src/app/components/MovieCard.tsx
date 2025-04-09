@@ -1,21 +1,22 @@
-"use client";
-
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardActionArea from "@mui/material/CardActionArea";
-import { CircularProgress, Typography, Box, Pagination } from "@mui/material";
+import { Box, CircularProgress, Typography, Pagination, Card, CardActionArea, CardMedia } from "@mui/material";
 import { useRouter } from "next/navigation";
-import DOMPurify from "isomorphic-dompurify";
-import { useGenreMovies } from "../utils/useGenreStore";
-import { useGenreStore } from "../utils/useGenreStore";
 import { theme } from "../utils/theme";
+import { useGenreMovies, useGenreStore } from "../utils/useGenreStore";
+import { useMountedStore } from "../utils/useMountedStore"; // Import your store
 
 export default function MovieCard() {
+  const { isMounted, setMounted } = useMountedStore();
   const router = useRouter();
   const { data, isLoading, isError } = useGenreMovies();
   const setPage = useGenreStore((state) => state.setPage);
   const currentPage = useGenreStore((state) => state.page);
+
+  // Check if the component is mounted on the client side
+  if (!isMounted) {
+    // Set mounted to true once the component is mounted
+    setMounted(true);
+    return null; // Return nothing initially on the server
+  }
 
   if (isLoading)
     return (
@@ -24,10 +25,10 @@ export default function MovieCard() {
       </Box>
     );
 
-  if (isError || !data?.movies || data.movies.length === 0)
+  if (isError || !data || data.movies.length === 0)
     return (
       <Typography variant="body1" sx={{ mt: 2 }}>
-        {DOMPurify.sanitize("The vault is empty")}
+        {"The vault is empty"}
       </Typography>
     );
 
@@ -77,9 +78,9 @@ export default function MovieCard() {
 
       <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
         <Pagination
-          count={Math.min(data.totalPages, 40)} // TMDB only allows up to page 500
+          count={data.totalPages} // Use totalPages from the API response
           page={currentPage}
-          onChange={(event, value) => setPage(value)}
+          onChange={(event, value) => setPage(value)} // Set page correctly
           color="primary"
         />
       </Box>
